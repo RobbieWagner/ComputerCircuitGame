@@ -11,6 +11,7 @@ namespace CircuitryGame
     {
         public static ConnectionManager Instance { get; private set; }
 
+        public Canvas canvas;
         public WireInputOutput input;
         public WireInputOutput output;
         [HideInInspector] public HashSet<WireInputOutput> hoveredInputOutputs = new HashSet<WireInputOutput>();
@@ -38,7 +39,7 @@ namespace CircuitryGame
 
         private void Update()
         {
-            // update current wire visual if it exists
+            currentWire?.UpdateWire();
         }
 
         private void ClickHandler(InputAction.CallbackContext context)
@@ -60,8 +61,8 @@ namespace CircuitryGame
 
         public void SetupWire()
         {
-            currentWire.input = input;
-            currentWire.output = output;
+            currentWire.wireOutput = input;
+            currentWire.wireInput = output;
             currentWire.UpdateWire();
             ClearSelection(false);
         }

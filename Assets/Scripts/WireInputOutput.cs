@@ -13,7 +13,6 @@ namespace CircuitryGame
         public bool isInput;
         public Node parentNode;
         [SerializeField] private Wire wirePrefab;
-        [SerializeField] private Button wireButton;
 
         protected override void Awake()
         {
@@ -42,14 +41,16 @@ namespace CircuitryGame
                 if (isInput && ConnectionManager.Instance.input == null)
                 {
                     ConnectionManager.Instance.input = this;
-                    ConnectionManager.Instance.currentWire = Instantiate(wirePrefab);
+                    ConnectionManager.Instance.currentWire = Instantiate(wirePrefab, ConnectionManager.Instance.canvas.transform);
                     ConnectionManager.Instance.currentWire.transform.position = transform.position;
+                    ConnectionManager.Instance.currentWire.wireOutput = this;
                 }
                 else if (!isInput && ConnectionManager.Instance.output == null)
                 {
                     ConnectionManager.Instance.output = this;
-                    ConnectionManager.Instance.currentWire = Instantiate(wirePrefab);
+                    ConnectionManager.Instance.currentWire = Instantiate(wirePrefab, ConnectionManager.Instance.canvas.transform);
                     ConnectionManager.Instance.currentWire.transform.position = transform.position;
+                    ConnectionManager.Instance.currentWire.wireInput = this;
                 }
             }
             else if (isInput && ConnectionManager.Instance.input != null && ConnectionManager.Instance.output == null && ConnectionManager.Instance.input.parentNode != parentNode)
