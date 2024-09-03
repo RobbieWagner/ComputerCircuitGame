@@ -26,7 +26,7 @@ namespace CircuitryGame
         protected virtual void Update()
         {
             if(dragging)
-                uiTransform.position = (Vector2) Input.mousePosition - dragOffset;
+                uiTransform.position = (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition) - dragOffset;
 
             UpdateInputOutput();
         }
@@ -40,7 +40,7 @@ namespace CircuitryGame
         {
             base.OnPointerDown(eventData);
             dragging = true;
-            dragOffset = Input.mousePosition - uiTransform.position;
+            dragOffset = Camera.main.ScreenToWorldPoint(Input.mousePosition) - uiTransform.position;
         }
 
         public override void OnPointerExit(PointerEventData eventData)

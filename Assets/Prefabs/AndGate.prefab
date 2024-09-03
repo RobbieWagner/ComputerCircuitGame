@@ -158,6 +158,10 @@ PrefabInstance:
       value: InputB
       objectReference: {fileID: 0}
     - target: {fileID: 677570997651113190, guid: a0f7f3cb091511f4493797738754e764, type: 3}
+      propertyPath: isInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 677570997651113190, guid: a0f7f3cb091511f4493797738754e764, type: 3}
       propertyPath: parentNode
       value: 
       objectReference: {fileID: 3888375501529997954}
@@ -273,6 +277,10 @@ PrefabInstance:
     - target: {fileID: 409164928140036106, guid: a0f7f3cb091511f4493797738754e764, type: 3}
       propertyPath: m_Name
       value: InputA
+      objectReference: {fileID: 0}
+    - target: {fileID: 677570997651113190, guid: a0f7f3cb091511f4493797738754e764, type: 3}
+      propertyPath: isInput
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 677570997651113190, guid: a0f7f3cb091511f4493797738754e764, type: 3}
       propertyPath: parentNode

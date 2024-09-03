@@ -18,6 +18,7 @@ namespace CircuitryGame
 
         public Wire currentWire;
 
+        [HideInInspector] public bool isControlHeld = false;
         private UIControls controls;
 
         // Start is called before the first frame update
@@ -35,11 +36,8 @@ namespace CircuitryGame
             controls = new UIControls();
             controls.Enable();
             controls.UI.Click.performed += ClickHandler;
-        }
-
-        private void Update()
-        {
-            currentWire?.UpdateWire();
+            controls.UI.ControlButton.performed += ToggleControlOn;
+            controls.UI.ControlButton.canceled += ToggleControlOff;
         }
 
         private void ClickHandler(InputAction.CallbackContext context)
@@ -64,7 +62,20 @@ namespace CircuitryGame
             currentWire.wireOutput = input;
             currentWire.wireInput = output;
             currentWire.UpdateWire();
+            currentWire.SetWireConnection(input, output);
             ClearSelection(false);
+        }
+
+        private void ToggleControlOn(InputAction.CallbackContext context)
+        {
+            isControlHeld = true;
+            Debug.Log(isControlHeld);
+        }
+
+        private void ToggleControlOff(InputAction.CallbackContext context)
+        {
+            isControlHeld = false;
+            Debug.Log(isControlHeld);
         }
     }
 }
