@@ -19,6 +19,8 @@ namespace CircuitryGame
         public WireInputOutput wireOutput;
         public WireInputOutput wireInput;
         [SerializeField] private Animator animator;
+        [SerializeField] private PolygonCollider2D polygonCollider;
+        [SerializeField] private Vector2 colliderOffset;
 
         protected override void Awake()
         {
@@ -40,6 +42,9 @@ namespace CircuitryGame
             {
                 lineRenderer.SetPosition(0, wireInput.uiTransform.position);
                 lineRenderer.SetPosition(1, wireOutput.uiTransform.position);
+                //lineRenderer.BakeMesh();
+                UpdatePolygonCollider();
+
             }
             else if (wireOutput != null)
             {
@@ -55,10 +60,44 @@ namespace CircuitryGame
                 Destroy(gameObject);
         }
 
+        private void UpdatePolygonCollider()
+        {
+            if (polygonCollider == null)
+            {
+                Debug.LogWarning("could not update collider: collider not present");
+                return;
+            }
+
+            polygonCollider.enabled = true;
+            Vector2 startPoint = Camera.main.WorldToScreenPoint(lineRenderer.GetPosition(0));
+            Vector2 endPoint = Camera.main.WorldToScreenPoint(lineRenderer.GetPosition(1));
+            //Vector2 startPoint = Camera.main.WorldToViewportPoint(lineRenderer.GetPosition(0));
+            //Vector2 endPoint = Camera.main.WorldToViewportPoint(lineRenderer.GetPosition(1));
+
+            Vector2 direction = (endPoint - startPoint).normalized;
+            direction = new Vector2(direction.y, direction.x);
+
+            Vector2[] points = new Vector2[4]
+            {
+                startPoint - (direction * wireHeight / 4) + colliderOffset,
+                startPoint + (direction * wireHeight / 4) + colliderOffset,
+                endPoint + (direction * wireHeight / 4) + colliderOffset,
+                endPoint - (direction * wireHeight / 4) + colliderOffset
+            };
+
+            polygonCollider.points = points;
+        }
+
         public void SetWireConnection(WireInputOutput input, WireInputOutput output)
         {
             wireInput = input;
             wireOutput = output;
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            base.OnPointerEnter(eventData);
+            Debug.Log("hi");
         }
 
         public override void OnPointerDown(PointerEventData eventData)
